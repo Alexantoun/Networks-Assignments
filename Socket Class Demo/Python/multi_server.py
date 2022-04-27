@@ -1,5 +1,6 @@
 #this allows us to multi-thread a server, to handle multiple connections
 from logging import exception
+from operator import length_hint
 import socket
 import select
 import time
@@ -15,6 +16,7 @@ def main():
         s.listen()          
         socket_list = [s]   #list of sockets so OS can handle it
         clients = {}        #this is creating a key value pair, called a dictionary
+        
         while True:
             read_socket, _ ,exception_socket = select.select(socket_list, [], socket_list)
             for notified_socket in read_socket:
@@ -26,17 +28,19 @@ def main():
                     username = conn.recv(int(message_header.decode().strip()))  #we take message header, decode it, and strip whitespace, then cast to int
                     clients[conn] = username.decode()
                     print(f"{clients}")
+
                 else:   #Otherwise we are working with an established connection
-                    #recieve new message from existing connection
-                    #message = notified_socket.recv(BUFFSIZE)
-                    #print(f"Recieved {message.decode()}")
-                    #time.sleep(2)
-                    message_header = conn.recv(HEADER_LENGTH)
-                    message = conn.recv(int(message_header.decode().strip()))
-                    print(f"{message.decode()}")
+                    message_header = notified_socket.recv(HEADER_LENGTH)
+                    message = notified_socket.recv(int(message_header.decode().strip()))
+                    
+                    username = clients[notified_socket]
+                    username_length = len(username)
+                    message_header = f"{username_length:,{HEADER_LENGTH}}".encode()
+                    print(f"{message}")
+
                     for k,v in clients.items():
                         if k!=notified_socket:
-                            k.send(message)
+                            k.send(message_header+username.encode())
+                            message_header2 = f"{message:<{HEADER_LENGTH}}".encode()
                     
-
 main()

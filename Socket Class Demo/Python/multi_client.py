@@ -1,7 +1,7 @@
 #This allows us to multi-thread a server, to handle multiple connections
 from logging import exception
 import socket
-import select
+import errno
 import time
 
 BUFFSIZE = 1024
@@ -23,13 +23,24 @@ def main():
         #message += "\r\n"
         #s.send(message.encode())
         while True:
-            message = input(f"{username} > ")
-            message_length = len(message)
-            message_header = f"{message_length:<{MESSAGE_LEN}}".encode()
-            print(f"'{message_header}'")
-            s.send(message_header+(message.encode()))
-        #    response = s.recv(BUFFSIZE)
-        #    print(f"Recieved from server {response.decode()}")
-            
+            try:
+                message = input(f"{username} > ")
+                message_length = len(message)
+                message_header = f"{message_length:<{MESSAGE_LEN}}".encode()
+                print(f"'{message_header}'")
+                s.send(message_header+(message.encode()))
+
+                while True:
+                    message_header = s.recv(MESSAGE_LEN)
+                    recv_username = s.recv(int(message_header.decode().strip()))    
+
+                    message_header = s.recv(MESSAGE_LEN)
+                    message = s.recv(int(message_header.decode().strip()))
+                    print(f"Recieved from {recv_username.decode()} : {message.decode()}")
+                    
+            except IOError as e:
+                if e.errno != errno.EAGAIN and e.errno != errno.EWOULDBLOCK:
+                    sys.exit()
+                    continue
 
 main()

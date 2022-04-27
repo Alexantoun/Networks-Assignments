@@ -1,0 +1,19 @@
+Scapy is a powerful interactive packet manipulation program. 
+    can forge or decode packets of a wide number of protocols
+    scan them, match requests, and much more. 
+
+Can handle most classical tasks such as:
+    tracerouting, probing, unit tests, attacks or network discovery
+
+Can do things that most tools cant like:
+    Inject your own 802.11 frames, sending invalid frames
+
+Runs natively on Linux, Windows, OSX and most unixes with libpcap
+    needs to be able to run as admin
+check out
+    https://scapy.net
+
+With mini conda you can create your own environemt
+    "conda create -n scapy_test python=3.8" <-- in directory I want to be in
+
+Can write scapy code in python, or you can use an interactive shell
