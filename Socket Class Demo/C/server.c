@@ -48,7 +48,8 @@ int main(int argc, char **argv){
         strcat(returnMessage, buffer);
         printf("%s\n",returnMessage);
         send(incomingSocket, returnMessage, strlen(returnMessage),0);
-        returnMessage[0] = '\0';
+        memset(returnMessage, '\0', 1024);
+        memset(buffer,'\0',1024); 
     }
     return 0;
 }

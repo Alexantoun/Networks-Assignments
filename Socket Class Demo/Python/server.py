@@ -14,7 +14,7 @@ def main():
             print(f"Recieved connection from {addr}")
             while True:
                 data = conn.recv(1024)
-                print(f"Recieved {data.decode()}")
+                print(f"Recieved {data}")
                 print(f"Which is {len(data.decode())} bytes") #Say on server machine that we recieved some string
                 if not data:
                     break   #once client breaks connection, we break out of loop
