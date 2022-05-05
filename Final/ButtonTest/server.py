@@ -3,7 +3,7 @@ import socket   #low level networking interface for python
 
 #Python makes this way easier, specify a host, specify a port --> Done!
 def main():
-    host = "192.168.1.6"
+    host = "192.168.1.24"
     port = 2345
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s: #like s = socket.socket... except automatically handles closing
         s.bind((host,port))     #Binding to this host and port

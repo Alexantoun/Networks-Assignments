@@ -1,11 +1,14 @@
 #include <ESP8266WiFi.h>
+#include <dht.h>
 
+#define inRead A0
+dht DHT;
 const char* ssid = "OceanFast_2GEXT";
 const char* psswrd = "IDontKnow1";
-const char* host ="192.168.1.6";
+const char* host ="192.168.1.24";
 const uint16_t port = 2345;
 int bttnState = 0;
-
+                    
 
 void setup() {
   // put your setup code here, to run once:
@@ -24,12 +27,14 @@ void setup() {
   Serial.print(WiFi.localIP());
   Serial.println("");
   pinMode(D3, INPUT);
+  pinMode(A0, INPUT);
   pinMode(D4, OUTPUT);
   digitalWrite(D4, HIGH);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
+
   WiFiClient client;
   if(!client.connect(host,port)){
     Serial.println("Connection Failed");
@@ -38,15 +43,17 @@ void loop() {
   while(client.connected()){
     bttnState = digitalRead(D3);
     if(bttnState == LOW){
-      digitalWrite(D4, LOW);
+      digitalWrite(D4, HIGH);
       client.print("Button being pressed");
-      delay(750);
     }
     else{
-      digitalWrite(D4, HIGH);
+      digitalWrite(D4, LOW);
       client.print("Button not being pressed");
-      delay(750);
-    }
+    }  
+    DHT.read11(inRead);
+    Serial.print("Tempreture read = ");
+    Serial.print(DHT.temperature);
+    delay(20);
   }
 
   Serial.println("Disconnected from server");
