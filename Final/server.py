@@ -1,21 +1,21 @@
 import socket   #low level networking interface for python
                 #supports bluetooth protocols too
 
-#Python makes this way easier, specify a host, specify a port --> Done!
 def main():
-    host = "192.168.1.24"
+    host = input("Enter my IP: ")
     port = 2345
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s: #like s = socket.socket... except automatically handles closing
-        s.bind((host,port))     #Binding to this host and port
-        s.listen()              #returns a positive integer for success, negative for an issue
+        s.bind((host,port)) #Binding to this host and port
         while True:
+            s.listen()  #returns a positive integer for success, negative for an issue
+            print("Waiting for connection...")
             conn, addr = s.accept() #waiting loop, waiting to accept a new connection
-                                    #Returns a connection, and address
-            print(f"Recieved connection from {addr}")
             while True:
                 data = conn.recv(1024)
                 print(f"{data.decode()}")
-                if not data:
-                    break   #once client breaks connection, we break out of loop
-                conn.sendall(data)  #Parrot what we recieved back to client
-main()
+                if not data or data.decode()=="close\r\n":
+                    break   #Go back to wait-for-connection state
+                #conn.sendall(data)  #parrot what we recieved back to client
+                                    #Returns a connection, and address
+            print(f"Recieved connection from {addr}")
+main()      
