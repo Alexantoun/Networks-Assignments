@@ -1,15 +1,20 @@
 #include <ESP8266WiFi.h>
 #include "DHT.h"
+//Sensor stuff
 #define inRead 12
 DHT dht(inRead, DHT11);
-const char* ssid = "Alex's iPhone (2)";
-const char* psswrd = "alex1234";
-const char* host ="172.20.10.9";
+
+//wifi stuff
+const char* ssid = "OceanFast_2GEXT";
+const char* psswrd = "IDontKnow1";
+const char* host ="192.168.1.24";
 const uint16_t port = 2345;
+
+//Component stuff
 int bttnState = 0;
 float temp;
 float humid;
-int status;
+String msg = "";
                     
 
 void setup() {
@@ -37,7 +42,6 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-
   WiFiClient client;
   if(!client.connect(host,port)){
     Serial.println("Connection Failed");
@@ -53,18 +57,22 @@ void loop() {
       digitalWrite(D4, LOW);
       client.print("Button not being pressed");
     }  
-    status = dht.read(inRead);
-    Serial.println(status);
     temp = dht.readTemperature();
-    Serial.println(temp);
-    Serial.print("Tempreture read = ");
-    Serial.print(temp);
-    client.print("Humid Read = ");
-    client.print(dht.readHumidity());
+    humid = dht.readHumidity();
+    msg = "Temperature read = " + String(temp);
+    Serial.println(msg);
+    client.print(msg);
+    delay(50);
+    msg = "Humidity read = " + String(humid);
+    Serial.println(msg);
+    client.print(msg);
+    //client.print
+    
+
     delay(2000);
   }
 
   Serial.println("Disconnected from server");
-  delay(500000);
+  delay(5000);
 
 }

@@ -12,10 +12,10 @@ def main():
             conn, addr = s.accept() #waiting loop, waiting to accept a new connection
             while True:
                 data = conn.recv(1024)
-                print(f"{data.decode()}")
+                print(f"{data.decode()}\n")
                 if not data or data.decode()=="close\r\n":
                     break   #Go back to wait-for-connection state
-                #conn.sendall(data)  #parrot what we recieved back to client
-                                    #Returns a connection, and address
+                
             print(f"Recieved connection from {addr}")
 main()      
+19
