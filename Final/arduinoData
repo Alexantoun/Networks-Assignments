@@ -1,0 +1,6 @@
+Button,Temp-C,Humidity-%
+Button not being pressed,Temperature read = 22.70,Humidity read = 35.00
+Button not being pressed,Temperature read = 22.50,Humidity read = 36.00
+Button not being pressed,Temperature read = 22.60Humidity read = 36.00Button not being pressedTemperature read = 22.60Humidity read = 36.00Button not being pressedTemperature read = 22.70Humidity read = 35.00,Button not being pressed
+Temperature read = 22.70Humidity read = 35.00,Button not being pressed,Temperature read = 22.70Humidity read = 35.00Button not being pressedTemperature read = 22.70Humidity read = 35.00Button not being pressedTemperature read = 22.80Humidity read = 35.00
+Button not being pressed,Temperature read = 22.80Humidity read = 35.00,Button not being pressedTemperature read = 22.80Humidity read = 35.00
