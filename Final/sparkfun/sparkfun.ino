@@ -1,8 +1,8 @@
 #include <WiFi.h>
 int ledPin = 5;
 
-const char * netName = "OceanFast_2GEXT";
-const char * psswrd = "IDontKnow1";
+const char * netName = "";
+const char * psswrd = "";
 const char* host = "192.168.1.24";
 const int port = 2345;
 
